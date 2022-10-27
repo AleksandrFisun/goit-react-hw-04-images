@@ -7,7 +7,6 @@ export const Description = styled.div`
 export const Text = styled.p`
   display: flex;
   align-items: center;
-  color: white;
   flex-direction: column;
   justify-content: center;
   align-content: center;
