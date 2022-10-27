@@ -1,5 +1,9 @@
 import { Component } from 'react';
 import { ModalWindow, Overlay, Description, Text, Img } from './Modal.styled';
+import { AiOutlineUser } from 'react-icons/ai';
+import { SlLike } from 'react-icons/sl';
+import { BsFillEyeFill } from 'react-icons/bs';
+
 import PropTypes from 'prop-types';
 
 export default class Modal extends Component {
@@ -32,9 +36,20 @@ export default class Modal extends Component {
         <ModalWindow>
           <Img src={largeImage} alt="" />
           <Description>
-            <Text>Имя пользователя: {user} </Text>
-            <Text>Просмотры: {views} </Text>
-            <Text>Лайки: {likes} </Text>
+            <Text>
+              <AiOutlineUser />
+              Имя пользователя: {user}
+            </Text>
+
+            <Text>
+              <BsFillEyeFill />
+              Просмотры: {views}
+            </Text>
+
+            <Text>
+              <SlLike />
+              Лайки: {likes}
+            </Text>
           </Description>
         </ModalWindow>
       </Overlay>

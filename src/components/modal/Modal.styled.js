@@ -5,6 +5,13 @@ export const Description = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
 `;
 export const Text = styled.p`
+  display: flex;
+  align-items: center;
+  color: white;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  z-index: 1201;
   color: white;
 `;
 export const Img = styled.img`
