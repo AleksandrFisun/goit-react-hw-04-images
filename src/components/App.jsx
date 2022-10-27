@@ -16,6 +16,9 @@ export class App extends Component {
     images: [],
     page: 0,
     largeImage: '',
+    user: '',
+    views: '',
+    likes: '',
     showModal: false,
     isLoading: false,
     error: null,
@@ -32,14 +35,20 @@ export class App extends Component {
         this.setState({ isLoading: true });
         const response = fetchImages(values, page);
         response.then(data => {
+          console.log(data.data.hits);
           data.data.hits.length === 0
             ? toast.error('Ничего не найдено')
-            : data.data.hits.forEach(({ id, webformatURL, largeImageURL }) => {
-                !images.some(image => image.id === id) &&
-                  this.setState(({ images }) => ({
-                    images: [...images, { id, webformatURL, largeImageURL }],
-                  }));
-              });
+            : data.data.hits.forEach(
+                ({ id, webformatURL, largeImageURL, user, likes, views }) => {
+                  !images.some(image => image.id === id) &&
+                    this.setState(({ images }) => ({
+                      images: [
+                        ...images,
+                        { id, webformatURL, largeImageURL, user, likes, views },
+                      ],
+                    }));
+                }
+              );
           this.setState({ isLoading: false });
         });
       } catch (error) {
@@ -52,6 +61,9 @@ export class App extends Component {
     this.setState(({ images }) => ({
       showModal: true,
       largeImage: images[index].largeImageURL,
+      user: images[index].user,
+      likes: images[index].likes,
+      views: images[index].views,
     }));
   };
 
@@ -64,7 +76,8 @@ export class App extends Component {
 
   render() {
     const { toggleModal, openModal, nextPage } = this;
-    const { images, isLoading, largeImage, showModal } = this.state;
+    const { images, isLoading, largeImage, user, views, likes, showModal } =
+      this.state;
     return (
       <div className={style.Wraper}>
         <ToastContainer />
@@ -73,7 +86,13 @@ export class App extends Component {
           <ImageGallery images={images} openModal={openModal} />
         )}
         {showModal && (
-          <Modal toggleModal={toggleModal} largeImage={largeImage} />
+          <Modal
+            toggleModal={toggleModal}
+            largeImage={largeImage}
+            user={user}
+            views={views}
+            likes={likes}
+          />
         )}
         <div className={style.LoadeMore}>
           {isLoading && <Loader />}

@@ -1,4 +1,15 @@
 import styled from 'styled-components';
+export const Description = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  background-color: rgba(0, 0, 0, 0.8);
+`;
+export const Text = styled.p`
+  color: white;
+`;
+export const Img = styled.img`
+  max-height: 700px;
+`;
 export const Overlay = styled.div`
   position: fixed;
   top: 0;

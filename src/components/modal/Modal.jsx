@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { ModalWindow, Overlay } from './Modal.styled';
+import { ModalWindow, Overlay, Description, Text, Img } from './Modal.styled';
 import PropTypes from 'prop-types';
 
 export default class Modal extends Component {
@@ -26,11 +26,16 @@ export default class Modal extends Component {
 
   render() {
     const { handleBackdropClick } = this;
-    const { largeImage } = this.props;
+    const { largeImage, user, views, likes } = this.props;
     return (
       <Overlay onClick={handleBackdropClick}>
         <ModalWindow>
-          <img src={largeImage} alt="" />
+          <Img src={largeImage} alt="" />
+          <Description>
+            <Text>Имя пользователя: {user} </Text>
+            <Text>Просмотры: {views} </Text>
+            <Text>Лайки: {likes} </Text>
+          </Description>
         </ModalWindow>
       </Overlay>
     );
