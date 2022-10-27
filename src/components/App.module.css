@@ -5,7 +5,12 @@
   padding-bottom: 24px;
 }
 .LoadeMore {
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.Loader {
+  width: 80px;
+  height: 80px;
 }

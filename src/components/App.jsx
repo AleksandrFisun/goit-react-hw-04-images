@@ -35,7 +35,6 @@ export class App extends Component {
         this.setState({ isLoading: true });
         const response = fetchImages(values, page);
         response.then(data => {
-          console.log(data.data.hits);
           data.data.hits.length === 0
             ? toast.error('Ничего не найдено')
             : data.data.hits.forEach(
@@ -95,7 +94,7 @@ export class App extends Component {
           />
         )}
         <div className={style.LoadeMore}>
-          {isLoading && <Loader />}
+          <div className={style.Loader}>{isLoading && <Loader />}</div>
           {images.length >= 12 && <LoadMore nextPage={nextPage} />}
         </div>
       </div>
