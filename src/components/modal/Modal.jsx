@@ -11,8 +11,8 @@ export default class Modal extends Component {
     toggleModal: PropTypes.func.isRequired,
     largeImage: PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
-    views: PropTypes.string.isRequired,
-    likes: PropTypes.string.isRequired,
+    views: PropTypes.number.isRequired,
+    likes: PropTypes.number.isRequired,
   };
 
   componentDidMount() {
@@ -33,11 +33,11 @@ export default class Modal extends Component {
 
   render() {
     const { handleBackdropClick } = this;
-    const { largeImage, user, views, likes } = this.props;
+    const { largeImage, user, views, likes, tags } = this.props;
     return (
       <Overlay onClick={handleBackdropClick}>
         <ModalWindow>
-          <Img src={largeImage} alt="" />
+          <Img src={largeImage} alt={tags} />
           <Description>
             <Text>
               <AiOutlineUser />

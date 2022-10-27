@@ -19,6 +19,7 @@ export class App extends Component {
     user: '',
     views: '',
     likes: '',
+    tags: '',
     showModal: false,
     isLoading: false,
     error: null,
@@ -38,12 +39,28 @@ export class App extends Component {
           data.data.hits.length === 0
             ? toast.error('Ничего не найдено')
             : data.data.hits.forEach(
-                ({ id, webformatURL, largeImageURL, user, likes, views }) => {
+                ({
+                  id,
+                  webformatURL,
+                  largeImageURL,
+                  user,
+                  likes,
+                  views,
+                  tags,
+                }) => {
                   !images.some(image => image.id === id) &&
                     this.setState(({ images }) => ({
                       images: [
                         ...images,
-                        { id, webformatURL, largeImageURL, user, likes, views },
+                        {
+                          id,
+                          webformatURL,
+                          largeImageURL,
+                          user,
+                          likes,
+                          views,
+                          tags,
+                        },
                       ],
                     }));
                 }
@@ -63,6 +80,7 @@ export class App extends Component {
       user: images[index].user,
       likes: images[index].likes,
       views: images[index].views,
+      tags: images[index].tags,
     }));
   };
 
@@ -75,14 +93,22 @@ export class App extends Component {
 
   render() {
     const { toggleModal, openModal, nextPage } = this;
-    const { images, isLoading, largeImage, user, views, likes, showModal } =
-      this.state;
+    const {
+      images,
+      isLoading,
+      largeImage,
+      user,
+      views,
+      likes,
+      tags,
+      showModal,
+    } = this.state;
     return (
       <div className={style.Wraper}>
         <ToastContainer />
         <Searchbar onSubmit={this.requestSearch} />
         {images.length !== 0 && (
-          <ImageGallery images={images} openModal={openModal} />
+          <ImageGallery images={images} tags={tags} openModal={openModal} />
         )}
         {showModal && (
           <Modal
@@ -91,6 +117,7 @@ export class App extends Component {
             user={user}
             views={views}
             likes={likes}
+            tags={tags}
           />
         )}
         <div className={style.LoadeMore}>

@@ -2,15 +2,16 @@ import ImageGalleryItem from './ImageGalleryItem';
 import { List } from './ImageGallery.styled';
 import PropTypes from 'prop-types';
 
-export default function ImageGallery({ images, openModal }) {
+export default function ImageGallery({ images, openModal, tags }) {
   return (
     <List>
-      {images.map(({ id, webformatURL }, index) => (
+      {images.map(({ id, webformatURL, tags }, index) => (
         <ImageGalleryItem
           key={id}
           webformatURL={webformatURL}
           index={index}
           openModal={openModal}
+          tags={tags}
         />
       ))}
     </List>
@@ -23,6 +24,7 @@ ImageGallery.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       webformatURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
     })
   ),
 };
