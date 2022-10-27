@@ -40,12 +40,10 @@ export default class Modal extends Component {
               <AiOutlineUser />
               Имя пользователя: {user}
             </Text>
-
             <Text>
               <BsFillEyeFill />
               Просмотры: {views}
             </Text>
-
             <Text>
               <SlLike />
               Лайки: {likes}
