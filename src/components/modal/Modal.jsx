@@ -10,6 +10,9 @@ export default class Modal extends Component {
   static propTypes = {
     toggleModal: PropTypes.func.isRequired,
     largeImage: PropTypes.string.isRequired,
+    user: PropTypes.string.isRequired,
+    views: PropTypes.string.isRequired,
+    likes: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
