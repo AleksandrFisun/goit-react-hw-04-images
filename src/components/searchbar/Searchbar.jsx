@@ -10,16 +10,17 @@ const initialValues = {
 };
 
 export class Searchbar extends Component {
-  handleSubmit = (searchValue, { resetForm }) => {
+  handleSubmit = searchValue => {
     const value = searchValue.search;
     if (!value) {
       return toast.error('Поле ввода пустое!');
     } else if (value.length <= 2) {
       toast.error('Введите более 2 символов!');
       return;
+    } else if (value === initialValues.value) {
+      console.log('asdasd');
     }
     this.props.onSubmit(value);
-    resetForm();
   };
 
   render() {
@@ -38,6 +39,6 @@ export class Searchbar extends Component {
   }
 }
 
-initialValues.PropTypes = {
-  value: PropTypes.string.isRequired,
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };

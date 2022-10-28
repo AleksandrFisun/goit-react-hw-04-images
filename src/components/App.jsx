@@ -25,6 +25,10 @@ export class App extends Component {
     error: null,
   };
   requestSearch = value => {
+    if (value === this.state.values) {
+      toast.error('Введите новый запрос');
+      return;
+    }
     this.setState({ values: value, page: 1, images: [] });
   };
   async componentDidUpdate(_, prevState) {
