@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,35 +8,33 @@ import LoadMore from './loadMore/LoadMore';
 import Loader from './loader/Loader';
 import Modal from './modal/Modal';
 import style from './App.module.css';
+import { useEffect } from 'react';
 
-export class App extends Component {
-  state = {
-    values: '',
-    images: [],
-    page: 0,
-    largeImage: '',
-    user: '',
-    views: '',
-    likes: '',
-    tags: '',
-    showModal: false,
-    isLoading: false,
-    error: null,
-  };
-  requestSearch = value => {
+export const App = () => {
+  const [values, setValues] = useState('');
+  const [images, setImages] = useState([]);
+  const [page, setPage] = useState(0);
+  const [largeImage, setLargeImage] = useState('');
+  const [user, setUser] = useState('');
+  const [views, setViews] = useState('');
+  const [likes, setLikes] = useState('');
+  const [tags, setTags] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const requestSearch = value => {
     if (value === this.state.values) {
       toast.error('Введите новый запрос');
       return;
     }
-    this.setState({ values: value, page: 1, images: [] });
+    setValues({ values: value, page: 1, images: [] });
   };
-  async componentDidUpdate(_, prevState) {
-    const prePage = prevState.page;
-    const preValues = prevState.values;
-    const { values, page, images } = this.state;
-    if (prePage !== page || preValues !== values) {
+
+  useEffect(() => {
+    if (setPage !== page || setValues !== values) {
       try {
-        this.setState({ isLoading: true });
+        setIsLoading(true);
         const response = fetchImages(values, page);
         response.then(data => {
           data.data.hits.length === 0
@@ -53,7 +50,7 @@ export class App extends Component {
                   tags,
                 }) => {
                   !images.some(image => image.id === id) &&
-                    this.setState(({ images }) => ({
+                    setImages(({ images }) => ({
                       images: [
                         ...images,
                         {
@@ -69,16 +66,16 @@ export class App extends Component {
                     }));
                 }
               );
-          this.setState({ isLoading: false });
+          setIsLoading(false);
         });
       } catch (error) {
-        this.setState({ error, isLoading: false });
+        setIsLoading({ error, isLoading: false });
       } finally {
       }
     }
-  }
-  openModal = index => {
-    this.setState(({ images }) => ({
+  });
+  const openModal = index => {
+    setImages(({ images }) => ({
       showModal: true,
       largeImage: images[index].largeImageURL,
       user: images[index].user,
@@ -88,47 +85,34 @@ export class App extends Component {
     }));
   };
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({ showModal: !showModal }));
+  const toggleModal = () => {
+    setShowModal(({ showModal }) => ({ showModal: !showModal }));
   };
-  nextPage = () => {
-    this.setState(({ page }) => ({ page: page + 1 }));
+  const nextPage = () => {
+    setPage(({ page }) => ({ page: page + 1 }));
   };
 
-  render() {
-    const { toggleModal, openModal, nextPage } = this;
-    const {
-      images,
-      isLoading,
-      largeImage,
-      user,
-      views,
-      likes,
-      tags,
-      showModal,
-    } = this.state;
-    return (
-      <div className={style.Wraper}>
-        <ToastContainer />
-        <Searchbar onSubmit={this.requestSearch} />
-        {images.length !== 0 && (
-          <ImageGallery images={images} tags={tags} openModal={openModal} />
-        )}
-        {showModal && (
-          <Modal
-            toggleModal={toggleModal}
-            largeImage={largeImage}
-            user={user}
-            views={views}
-            likes={likes}
-            tags={tags}
-          />
-        )}
-        <div className={style.LoadeMore}>
-          <div className={style.Loader}>{isLoading && <Loader />}</div>
-          {images.length >= 12 && <LoadMore nextPage={nextPage} />}
-        </div>
+  return (
+    <div className={style.Wraper}>
+      <ToastContainer />
+      <Searchbar onSubmit={requestSearch} />
+      {images.length !== 0 && (
+        <ImageGallery images={images} tags={tags} openModal={openModal} />
+      )}
+      {showModal && (
+        <Modal
+          toggleModal={toggleModal}
+          largeImage={largeImage}
+          user={user}
+          views={views}
+          likes={likes}
+          tags={tags}
+        />
+      )}
+      <div className={style.LoadeMore}>
+        <div className={style.Loader}>{isLoading && <Loader />}</div>
+        {images.length >= 12 && <LoadMore nextPage={nextPage} />}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
