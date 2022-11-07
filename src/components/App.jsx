@@ -38,7 +38,7 @@ export default function App() {
         const response = await getImages(imagesName, page);
         setError(false);
         if (response.hits.length === 0) {
-          toast.error('Немає зображення по запиту');
+          toast.error('Ничего не найдено');
           setImages([]);
           setIsLoading(false);
           setError(true);

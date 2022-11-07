@@ -15,10 +15,6 @@ export default function Searchbar({ onSubmit }) {
     setImagesName(event.target.value.toLowerCase());
   };
   const handleSubmit = () => {
-    // console.log(imagesName);
-    // console.log(setImagesName);
-    // console.log(e.search);
-    // setImagesName(e.search);
     if (!imagesName) {
       return toast.error('Поле ввода пустое!');
     } else if (imagesName.length <= 2) {
