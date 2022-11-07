@@ -1,21 +1,19 @@
-import PropTypes from 'prop-types';
 import { Item, Img } from './ImageGalleryItem.styled';
-export default function ImageGalleryItem({
-  webformatURL,
-  index,
-  openModal,
-  tags,
-}) {
-  return (
-    <Item>
-      <Img src={webformatURL} onClick={() => openModal(index)} alt={tags} />
-    </Item>
-  );
-}
+import propTypes from 'prop-types';
+
+export const ImageGalleryItem = ({ images, openModal }) => {
+  const elements = images.map(({ id, webformatURL, largeImageURL }) => {
+    return (
+      <Item key={id} onClick={() => openModal({ id, largeImageURL })}>
+        <Img src={webformatURL} />
+      </Item>
+    );
+  });
+  return elements;
+};
+export default ImageGalleryItem;
 
 ImageGalleryItem.propTypes = {
-  index: PropTypes.number.isRequired,
-  webformatURL: PropTypes.string.isRequired,
-  tags: PropTypes.string.isRequired,
-  openModal: PropTypes.func.isRequired,
+  images: propTypes.array,
+  onClick: propTypes.func,
 };

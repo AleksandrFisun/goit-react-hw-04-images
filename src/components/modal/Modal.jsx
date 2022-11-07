@@ -1,59 +1,36 @@
-import { Component } from 'react';
-import { ModalWindow, Overlay, Description, Text, Img } from './Modal.styled';
-import { AiOutlineUser } from 'react-icons/ai';
-import { SlLike } from 'react-icons/sl';
-import { BsFillEyeFill } from 'react-icons/bs';
+import React, { useEffect } from 'react';
+import propTypes from 'prop-types';
+import { ModalWindow, Overlay, Img } from './Modal.styled';
 
-import PropTypes from 'prop-types';
-
-export default class Modal extends Component {
-  static propTypes = {
-    toggleModal: PropTypes.func.isRequired,
-    largeImage: PropTypes.string.isRequired,
-    user: PropTypes.string.isRequired,
-    views: PropTypes.number.isRequired,
-    likes: PropTypes.number.isRequired,
+export default function Modal({ largeImage, toggleModal }) {
+  const handleKeyDown = e => {
+    if (e.currentTarget === e.target || e.code === 'Escape') {
+      toggleModal();
+    }
   };
+  useEffect(() => {
+    const onEsc = e => {
+      if (e.code === 'Escape') {
+        toggleModal();
+      }
+    };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
+    window.addEventListener('keydown', onEsc);
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
+    return () => {
+      window.removeEventListener('keydown', toggleModal);
+    };
+  }, [toggleModal]);
 
-  handleKeyDown = e => {
-    e.code === 'Escape' && this.props.toggleModal();
-  };
-
-  handleBackdropClick = e => {
-    e.target === e.currentTarget && this.props.toggleModal();
-  };
-
-  render() {
-    const { handleBackdropClick } = this;
-    const { largeImage, user, views, likes, tags } = this.props;
-    return (
-      <Overlay onClick={handleBackdropClick}>
-        <ModalWindow>
-          <Img src={largeImage} alt={tags} />
-          <Description>
-            <Text>
-              <AiOutlineUser />
-              Имя пользователя: {user}
-            </Text>
-            <Text>
-              <BsFillEyeFill />
-              Просмотры: {views}
-            </Text>
-            <Text>
-              <SlLike />
-              Лайки: {likes}
-            </Text>
-          </Description>
-        </ModalWindow>
-      </Overlay>
-    );
-  }
+  return (
+    <Overlay onClick={handleKeyDown}>
+      <ModalWindow>
+        <Img src={largeImage} alt="" />
+      </ModalWindow>
+    </Overlay>
+  );
 }
+
+Modal.propTypes = {
+  onClose: propTypes.func,
+};

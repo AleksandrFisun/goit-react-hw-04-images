@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -9,36 +9,43 @@ const initialValues = {
   search: '',
 };
 
-export class Searchbar extends Component {
-  handleSubmit = searchValue => {
-    const value = searchValue.search;
-    if (!value) {
+export default function Searchbar({ onSubmit }) {
+  const [imagesName, setImagesName] = useState('');
+  const changeHandler = event => {
+    setImagesName(event.target.value.toLowerCase());
+  };
+  const handleSubmit = () => {
+    // console.log(imagesName);
+    // console.log(setImagesName);
+    // console.log(e.search);
+    // setImagesName(e.search);
+    if (!imagesName) {
       return toast.error('Поле ввода пустое!');
-    } else if (value.length <= 2) {
+    } else if (imagesName.length <= 2) {
       toast.error('Введите более 2 символов!');
       return;
-    } else if (value === initialValues.value) {
-      console.log('asdasd');
     }
-    this.props.onSubmit(value);
+    onSubmit(imagesName);
   };
-
-  render() {
-    return (
-      <Formik initialValues={initialValues} onSubmit={this.handleSubmit}>
-        <div className={styled.Wraper}>
-          <Form className={styled.SearchForm} autoComplete="off">
-            <button className={styled.SearchFormButton} type="submit">
-              <AiOutlineSearch />
-            </button>
-            <Field className={styled.Input} type="text" name="search" />
-          </Form>
-        </div>
-      </Formik>
-    );
-  }
+  return (
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <div className={styled.Wraper}>
+        <Form className={styled.SearchForm} autoComplete="off">
+          <button className={styled.SearchFormButton} type="submit">
+            <AiOutlineSearch />
+          </button>
+          <Field
+            className={styled.Input}
+            type="text"
+            name="search"
+            value={imagesName}
+            onChange={changeHandler}
+          />
+        </Form>
+      </div>
+    </Formik>
+  );
 }
-
 Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
