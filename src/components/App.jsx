@@ -16,7 +16,6 @@ export default function App() {
   const [largeImage, setLargeImage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const requestSearch = value => {
     if (value === imagesName) {
@@ -36,19 +35,16 @@ export default function App() {
       setIsLoading(true);
       try {
         const response = await getImages(imagesName, page);
-        setError(false);
         if (response.hits.length === 0) {
           toast.error('Ничего не найдено');
           setImages([]);
           setIsLoading(false);
-          setError(true);
           return;
         }
         setImages(prev => {
           return [...prev, ...response.hits];
         });
       } catch (error) {
-        setError(true);
         setImages([]);
       } finally {
         setIsLoading(false);
