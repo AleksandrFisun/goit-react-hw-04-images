@@ -1,5 +1,5 @@
 import { Item, Img } from './ImageGalleryItem.styled';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 export const ImageGalleryItem = ({ images, openModal }) => {
   const elements = images.map(({ id, webformatURL, largeImageURL }) => {
@@ -14,6 +14,7 @@ export const ImageGalleryItem = ({ images, openModal }) => {
 export default ImageGalleryItem;
 
 ImageGalleryItem.propTypes = {
-  images: propTypes.array,
-  onClick: propTypes.func,
+  images: PropTypes.array.isRequired,
+  openModal: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { ModalWindow, Overlay, Img } from './Modal.styled';
 
 export default function Modal({ largeImage, toggleModal }) {
@@ -18,7 +18,7 @@ export default function Modal({ largeImage, toggleModal }) {
     window.addEventListener('keydown', onEsc);
 
     return () => {
-      window.removeEventListener('keydown', toggleModal);
+      window.removeEventListener('keydown', onEsc);
     };
   }, [toggleModal]);
 
@@ -32,5 +32,6 @@ export default function Modal({ largeImage, toggleModal }) {
 }
 
 Modal.propTypes = {
-  onClose: propTypes.func,
+  largeImage: PropTypes.string.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
